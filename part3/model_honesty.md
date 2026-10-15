@@ -1,0 +1,15 @@
+# Part 3: Keeping a Model Honest
+
+When I scroll YouTube, most of the time I only see the title and thumbnail, and I decide in a few seconds. If the title makes me curious, I click, even before I know whether the video is good. For example, a title like “Who is the girlfriend of this famous actor?” gets clicks because many people already know the actor and want to know more about him. So the title matters a lot.
+
+The problem is that a language model has never seen the real clicks of these two titles. It does not know the creator’s audience, the thumbnail, or how YouTube will show the video. So if it says “Title A will get 37% more clicks,” that number is made up. It sounds confident, but nothing is behind it. My main rule is that the model should not be the one who creates numbers. A number should come from real data, and the model should only explain it. If there is no data, there should be no number.
+
+To stop this, I would first check what real data the system has. If it has nothing, I would tell the model not to give any percentage. It should only say which title looks more curious or clearer, say honestly that it is not sure, and suggest testing both titles. I would also make the answer format without any place for a percentage, so the model cannot put one. If the system does have data, like the creator’s old videos or a real A/B test, the system itself would fetch the number and show the source, and the model would only explain it. I would also check whether that data is relevant because different audiences, thumbnails, and topics can produce different results.
+
+I also thought about using search data, like how many people are searching for that actor. I think this is useful, but only as a sign of interest. It can tell us “people are very curious about this topic,” but it cannot tell us how many people will click this particular title. So I would show it as “high interest” and not as a click percentage.
+
+Sometimes the model will still give a number, so I would add a checking step before the creator sees the answer. A small program finds the numbers in the answer and checks whether the available data actually supports them. If a number is not supported by the data, I block it and ask the model to answer again without that number. I would try only once more. If it still gives an unsupported number, I would show a safe answer like “I can’t know the exact clicks, but Title A looks more curious. Please test both.”
+
+In production, I would count every week how many times the model tried to give a number without support from the data. If the count suddenly goes up after I change the model or the prompt, then something is wrong. I would also read some answers myself, both blocked and allowed ones, to check that the program is not blocking good answers or missing bad ones.
+
+One thing I cannot fully catch is a wrong opinion with no number, like “this title is more exciting.” The program cannot easily check that. So I would show it as an opinion and not a fact, and later compare it with real test results.
