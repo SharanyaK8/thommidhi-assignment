@@ -20,4 +20,4 @@ The validator returns valid parsed entries and counts invalid entries by failure
 
 ## Known Limitation
 
-Duplicate JSON keys are not explicitly detected. Python's default JSON parser keeps the last value when a key appears more than once. Detecting duplicate keys could be added in a future version.
+Duplicate JSON keys are not detected: an entry like `{"title": "a", "title": "b", ...}` is accepted as valid. I left this unhandled because Python's `json.loads` silently keeps the last value and gives no error, so detecting it needs a custom parser hook, and the brief did not say whether duplicates should count as invalid.

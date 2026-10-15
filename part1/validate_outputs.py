@@ -42,7 +42,7 @@ def _check_one(item):
     # 2. Must parse as JSON (NaN/Infinity rejected via parse_constant).
     try:
         data = json.loads(item, parse_constant=_reject_constant)
-    except ValueError:  # JSONDecodeError is a subclass of ValueError
+    except (ValueError, RecursionError):  # JSONDecodeError is a ValueError
         return None, "invalid_json"
 
     # 3. Must be a JSON object (a dict), or key checks would crash.
